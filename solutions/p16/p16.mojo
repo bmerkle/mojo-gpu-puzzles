@@ -137,7 +137,7 @@ fn matmul_tiled[
         if tiled_row < size and tiled_col < size:
 
             @parameter
-            for k in range(min(TPB, size - tile * TPB)):
+            for k in range(min(Int(TPB), Int(size - tile * TPB))):
                 acc += a_shared[local_row, k] * b_shared[k, local_col]
 
         barrier()
@@ -265,7 +265,7 @@ def main():
 
         if argv()[1] == "--naive":
             comptime kernel = naive_matmul[layout, UInt(SIZE)]
-            ctx.enqueue_function_checked[kernel, kernel](
+            ctx.enqueue_function[kernel, kernel](
                 out_tensor,
                 a_tensor,
                 b_tensor,
@@ -274,7 +274,7 @@ def main():
             )
         elif argv()[1] == "--single-block":
             comptime kernel = single_block_matmul[layout, UInt(SIZE)]
-            ctx.enqueue_function_checked[kernel, kernel](
+            ctx.enqueue_function[kernel, kernel](
                 out_tensor,
                 a_tensor,
                 b_tensor,
@@ -294,7 +294,7 @@ def main():
             )
 
             comptime kernel = matmul_tiled[layout_tiled, UInt(SIZE_TILED)]
-            ctx.enqueue_function_checked[kernel, kernel](
+            ctx.enqueue_function[kernel, kernel](
                 out_tensor_tiled,
                 a_tensor_tiled,
                 b_tensor_tiled,
@@ -315,7 +315,7 @@ def main():
             comptime kernel = matmul_idiomatic_tiled[
                 layout_tiled, UInt(SIZE_TILED)
             ]
-            ctx.enqueue_function_checked[kernel, kernel](
+            ctx.enqueue_function[kernel, kernel](
                 out_tensor_tiled,
                 a_tensor_tiled,
                 b_tensor_tiled,

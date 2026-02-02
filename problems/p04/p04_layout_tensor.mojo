@@ -1,4 +1,4 @@
-from gpu import thread_idx, block_dim, block_idx
+from gpu import thread_idx
 from gpu.host import DeviceContext
 from layout import Layout, LayoutTensor
 from testing import assert_equal
@@ -43,7 +43,7 @@ def main():
 
         a_tensor = LayoutTensor[dtype, layout, MutAnyOrigin](a)
 
-        ctx.enqueue_function_checked[add_10_2d, add_10_2d](
+        ctx.enqueue_function[add_10_2d, add_10_2d](
             out_tensor,
             a_tensor,
             UInt(SIZE),

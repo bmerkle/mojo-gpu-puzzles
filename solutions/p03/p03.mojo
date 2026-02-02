@@ -5,7 +5,7 @@ from testing import assert_equal
 
 comptime SIZE = 4
 comptime BLOCKS_PER_GRID = 1
-comptime THREADS_PER_BLOCK = (8, 1)
+comptime THREADS_PER_BLOCK = 8
 comptime dtype = DType.float32
 
 
@@ -33,7 +33,7 @@ def main():
             for i in range(SIZE):
                 a_host[i] = i
 
-        ctx.enqueue_function_checked[add_10_guard, add_10_guard](
+        ctx.enqueue_function[add_10_guard, add_10_guard](
             out,
             a,
             UInt(SIZE),

@@ -1,6 +1,6 @@
 from memory import UnsafePointer
-from gpu import thread_idx, block_dim, block_idx
-from gpu.host import DeviceContext, HostBuffer
+from gpu import thread_idx
+from gpu.host import DeviceContext
 from testing import assert_equal
 
 comptime SIZE = 2
@@ -44,7 +44,7 @@ def main():
                 for x in range(SIZE):
                     expected[y * SIZE + x] = a_host[x] + b_host[y]
 
-        ctx.enqueue_function_checked[broadcast_add, broadcast_add](
+        ctx.enqueue_function[broadcast_add, broadcast_add](
             out,
             a,
             b,

@@ -1,4 +1,3 @@
-from memory import UnsafePointer
 from gpu import thread_idx, block_idx, block_dim, barrier
 from gpu.host import DeviceContext
 from gpu.memory import AddressSpace
@@ -54,7 +53,7 @@ def main():
         a_tensor = LayoutTensor[dtype, layout, ImmutAnyOrigin](a)
 
         comptime kernel = add_10_shared_layout_tensor[layout]
-        ctx.enqueue_function_checked[kernel, kernel](
+        ctx.enqueue_function[kernel, kernel](
             out_tensor,
             a_tensor,
             UInt(SIZE),

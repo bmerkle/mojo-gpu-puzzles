@@ -1,6 +1,6 @@
 from memory import UnsafePointer
-from gpu import thread_idx, block_dim, block_idx
-from gpu.host import DeviceContext, HostBuffer
+from gpu import thread_idx
+from gpu.host import DeviceContext
 from testing import assert_equal
 
 # ANCHOR: broadcast_add
@@ -41,7 +41,7 @@ def main():
                 for j in range(SIZE):
                     expected[i * SIZE + j] = a_host[j] + b_host[i]
 
-        ctx.enqueue_function_checked[broadcast_add, broadcast_add](
+        ctx.enqueue_function[broadcast_add, broadcast_add](
             out,
             a,
             b,

@@ -1,5 +1,5 @@
-from gpu import thread_idx, block_dim, block_idx
-from gpu.host import DeviceContext, HostBuffer
+from gpu import thread_idx
+from gpu.host import DeviceContext
 from layout import Layout, LayoutTensor
 from testing import assert_equal
 
@@ -62,7 +62,7 @@ def main():
         b_tensor = LayoutTensor[dtype, b_layout, ImmutAnyOrigin](b)
 
         comptime kernel = broadcast_add[out_layout, a_layout, b_layout]
-        ctx.enqueue_function_checked[kernel, kernel](
+        ctx.enqueue_function[kernel, kernel](
             out_tensor,
             a_tensor,
             b_tensor,
